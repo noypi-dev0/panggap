@@ -1,0 +1,38 @@
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+*CLAUDE.md
+.claude
+.vscode
+.build
+
+# Development artifacts
+progress.md
+.cursorrules
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# IDE files
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# App-specific ignores
+release/
