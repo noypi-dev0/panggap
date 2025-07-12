@@ -1,0 +1,116 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'pnpm'
+    
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+    
+    - name: Build application
+      run: pnpm run build
+    
+    - name: Build distributables (macOS)
+      if: matrix.os == 'macos-latest'
+      run: pnpm run build:mac
+    
+
+    
+    - name: Build distributables (Windows)
+      if: matrix.os == 'windows-latest'
+      run: pnpm run build:win
+    
+    - name: Upload macOS artifacts
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-distributables
+        path: |
+          dist/*.dmg
+          dist/*.zip
+    
+
+    
+    - name: Upload Windows artifacts
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-distributables
+        path: |
+          dist/*.exe
+          dist/*.msi
+  
+  create-release:
+    needs: release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: dist-artifacts
+    
+    - name: Display structure of downloaded files
+      run: ls -la dist-artifacts/
+    
+    - name: Extract version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+    
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.get_version.outputs.VERSION }}
+        name: Release ${{ steps.get_version.outputs.VERSION }}
+        body: |
+          ## 🚀 Panggap ${{ steps.get_version.outputs.VERSION }}
+          
+          ### Downloads
+          - **Windows**: Download the `.exe` installer
+          - **macOS**: Download the `.dmg` file
+          
+          ### What's New
+          - Bug fixes and improvements
+          - See commit history for detailed changes
+          
+          ### Installation
+          1. Download the appropriate file for your platform
+          2. Install and run Panggap
+          3. Set up your global hotkey and start enhancing text with AI!
+        
+        artifacts: |
+          dist-artifacts/**/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        draft: false
+        prerelease: false 

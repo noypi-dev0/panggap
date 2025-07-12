@@ -20,7 +20,11 @@
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
     "start:mac": "xattr -cr dist/mac-arm64/panggap.app && open dist/mac-arm64/panggap.app",
-    "install:mac": "cp -r dist/mac-arm64/panggap.app /Applications/ && xattr -cr /Applications/panggap.app && echo '✅ Panggap installed to Applications!'"
+    "install:mac": "cp -r dist/mac-arm64/panggap.app /Applications/ && xattr -cr /Applications/panggap.app && echo '✅ Panggap installed to Applications!'",
+    "release": "./scripts/release.sh",
+    "release:patch": "./scripts/release.sh patch",
+    "release:minor": "./scripts/release.sh minor",
+    "release:major": "./scripts/release.sh major"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
