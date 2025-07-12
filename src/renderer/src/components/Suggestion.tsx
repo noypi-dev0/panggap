@@ -123,9 +123,7 @@ function Suggestion(): React.JSX.Element {
 
           {/* Error message footer */}
           {data.isError && (
-            <div className="text-center text-xs text-muted-foreground">
-              Press ESC to close
-            </div>
+            <div className="text-center text-xs text-muted-foreground">Press ESC to close</div>
           )}
         </CardContent>
       </Card>

@@ -45,14 +45,14 @@ export class TextEnhancer {
           // Show generic error message about text capture and permissions
           await suggestionWindow.showError(
             'Could not capture text from the active window.\n\n' +
-            'Please check that:\n' +
-            '• A text field is in focus (click in a text field first)\n' +
-            '• Accessibility permissions are granted for Panggap\n' +
-            '• The active app allows text selection\n\n' +
-            'On macOS, you can check accessibility permissions in:\n' +
-            'System Preferences → Security & Privacy → Accessibility'
+              'Please check that:\n' +
+              '• A text field is in focus (click in a text field first)\n' +
+              '• Accessibility permissions are granted for Panggap\n' +
+              '• The active app allows text selection\n\n' +
+              'On macOS, you can check accessibility permissions in:\n' +
+              'System Preferences → Security & Privacy → Accessibility'
           )
-          
+
           // Don't automatically open System Preferences - let user read the message first
           // They can manually open it if needed
           return

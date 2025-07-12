@@ -7,6 +7,7 @@ This guide explains how to use the automated release system for Panggap.
 The release system uses **GitHub Actions** to automatically build your app for multiple platforms and create GitHub releases with downloadable installers.
 
 ### What happens automatically:
+
 - ✅ **Multi-platform builds**: Windows, macOS
 - ✅ **Automatic GitHub releases** with downloadable assets
 - ✅ **Quality checks** via automated testing
@@ -28,6 +29,7 @@ pnpm run release:major
 ```
 
 The script will:
+
 1. ✅ Check that you're on the `main` branch
 2. ✅ Ensure your working directory is clean
 3. ✅ Update the version in `package.json`
@@ -40,9 +42,11 @@ The script will:
 The GitHub Actions workflow builds:
 
 ### Windows
+
 - `panggap-{version}-setup.exe` (NSIS installer)
 
 ### macOS
+
 - `panggap-{version}-arm64.dmg` (Apple Silicon)
 - `panggap-{version}-x64.dmg` (Intel)
 

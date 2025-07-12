@@ -23,12 +23,12 @@ class TextCaptureManager {
       console.error('Text capture failed:', error)
       // Always try to restore clipboard on error
       await this.restoreClipboard()
-      
+
       // Convert timeout errors to generic capture error
       if (error instanceof Error && error.message.includes('timeout')) {
         throw new Error('COULD_NOT_CAPTURE_TEXT')
       }
-      
+
       // Re-throw the error so the caller can handle it appropriately
       throw error
     }
@@ -53,12 +53,12 @@ class TextCaptureManager {
     if (process.platform === 'darwin') {
       const originalEmpty = !this.originalClipboard || this.originalClipboard.trim() === ''
       const capturedEmpty = !capturedText || capturedText.trim() === ''
-      
+
       // Case 1: Clipboard didn't change from original (robotjs operations had no effect)
       if (capturedText === this.originalClipboard) {
         throw new Error('COULD_NOT_CAPTURE_TEXT')
       }
-      
+
       // Case 2: Both original and captured are empty
       // This is ambiguous - could be no text to capture, or permission issue
       // But since user pressed hotkey, they likely expect to capture something
